@@ -1,0 +1,19 @@
+@theme {
+  --color-surface: #020617;
+  --color-surface-secondary: #0f172a;
+  --color-surface-tertiary: #1e293b;
+
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-border-secondary: rgba(255, 255, 255, 0.06);
+
+  --color-accent: #3b82f6;
+  --color-accent-hover: #2563eb;
+
+  --color-destructive: #ef4444;
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.6);
+  --color-text-tertiary: rgba(255, 255, 255, 0.4);
+
+  --font-sans: system-ui, -apple-system, sans-serif;
+}

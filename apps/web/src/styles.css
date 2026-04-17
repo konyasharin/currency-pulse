@@ -1,0 +1,6 @@
+@import '@currency-pulse/tailwind-config';
+
+* {
+    font-family: "JetBrains Mono", monospace;
+    box-sizing: border-box;
+}
