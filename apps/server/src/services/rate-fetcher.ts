@@ -1,3 +1,5 @@
+import type { RatesSnapshot } from '@currency-pulse/shared/types'
+
 import { db } from '../db/index.js'
 import { rates } from '../db/schema.js'
 import { redis } from '../lib/redis.js'
@@ -6,12 +8,6 @@ const EXCHANGE_API_URL = process.env.EXCHANGE_API_URL ?? 'https://open.er-api.co
 const BASE = 'EUR'
 const REDIS_KEY = 'rates:latest'
 const REDIS_TTL_SECONDS = 3600
-
-export interface RatesSnapshot {
-  base: string
-  date: string
-  rates: Record<string, number>
-}
 
 interface ExchangeApiResponse {
   result: string
@@ -58,3 +54,5 @@ export async function getCachedRates(): Promise<RatesSnapshot | null> {
   const cached = await redis.get(REDIS_KEY)
   return cached ? (JSON.parse(cached) as RatesSnapshot) : null
 }
+
+export type { RatesSnapshot }

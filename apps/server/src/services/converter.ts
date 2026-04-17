@@ -1,21 +1,9 @@
+import type { ConvertInput, ConvertResult, RatesSnapshot } from '@currency-pulse/shared/types'
 import { desc, eq } from 'drizzle-orm'
+
 import { db } from '../db/index.js'
 import { rates } from '../db/schema.js'
-import { fetchAndStoreRates, getCachedRates, type RatesSnapshot } from './rate-fetcher.js'
-
-export interface ConvertInput {
-  from: string
-  to: string
-  amount: number
-}
-
-export interface ConvertResult {
-  from: string
-  to: string
-  amount: number
-  result: number
-  rate: number
-}
+import { fetchAndStoreRates, getCachedRates } from './rate-fetcher.js'
 
 async function getSnapshot(): Promise<RatesSnapshot> {
   const cached = await getCachedRates()

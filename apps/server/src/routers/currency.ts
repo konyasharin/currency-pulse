@@ -1,28 +1,13 @@
+import {
+  convertInputSchema,
+  convertResultSchema,
+  ratesSnapshotSchema,
+} from '@currency-pulse/shared/schemas'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
 import { convert, getSnapshot } from '../services/converter.js'
 import { publicProcedure, router } from '../trpc/trpc.js'
-
-const ratesResponseSchema = z.object({
-  base: z.string(),
-  date: z.string(),
-  rates: z.record(z.string(), z.number()),
-})
-
-const convertResponseSchema = z.object({
-  from: z.string(),
-  to: z.string(),
-  amount: z.number(),
-  result: z.number(),
-  rate: z.number(),
-})
-
-const currencyCode = z
-  .string()
-  .length(3)
-  .regex(/^[A-Za-z]{3}$/)
-  .transform((v) => v.toUpperCase())
 
 export const currencyRouter = router({
   getRates: publicProcedure
@@ -35,7 +20,7 @@ export const currencyRouter = router({
       },
     })
     .input(z.void())
-    .output(ratesResponseSchema)
+    .output(ratesSnapshotSchema)
     .query(async () => {
       return await getSnapshot()
     }),
@@ -49,14 +34,8 @@ export const currencyRouter = router({
         summary: 'Convert amount from one currency to another',
       },
     })
-    .input(
-      z.object({
-        from: currencyCode,
-        to: currencyCode,
-        amount: z.coerce.number().positive(),
-      }),
-    )
-    .output(convertResponseSchema)
+    .input(convertInputSchema)
+    .output(convertResultSchema)
     .query(async ({ input }) => {
       try {
         return await convert(input)
